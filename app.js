@@ -35,18 +35,13 @@ app.post("/", function (req, res) {
         auth: "milton:88cda1de595c5b6a440051423a950599-us20"
     };
     const apiRequest = https.request(url, options, function (response) {
-        //statusMessage
         if (response.statusCode === 200) {
             res.sendFile(__dirname + "/success.html");
         } else {
             res.sendFile(__dirname + "/failure.html");
         }
-
-        response.on("data", function (data) {
-            // console.log(JSON.parse(data));
-        });
     });
-    // apiRequest.write(jsonData);
+    apiRequest.write(jsonData);
     apiRequest.end();
 });
 
@@ -54,7 +49,7 @@ app.post("/failure", function (req, res) {
     res.redirect("/");
 });
 
-app.listen(3000, function () {
+app.listen(process.env.PORT || 3000, function () {
     console.log("Server is running on port 3000");
 });
 
