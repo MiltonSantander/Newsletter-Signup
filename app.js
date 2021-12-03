@@ -1,7 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const https = require('https');
+const apiKey = process.env.API_KEY;
+const audienceId = process.env.AUDIENCE_ID;
 
 const app = express();
 
@@ -29,10 +32,10 @@ app.post("/", function (req, res) {
         ]
     };
     const jsonData = JSON.stringify(data);
-    const url = "https://us20.api.mailchimp.com/3.0/lists/42629f4a9c";
+    const url = "https://us20.api.mailchimp.com/3.0/lists/"+audienceId;
     const options = {
         method: "POST",
-        auth: "milton:88cda1de595c5b6a440051423a950599-us20"
+        auth: "milton:"+apiKey
     };
     const apiRequest = https.request(url, options, function (response) {
         if (response.statusCode === 200) {
@@ -52,10 +55,3 @@ app.post("/failure", function (req, res) {
 app.listen(process.env.PORT || 3000, function () {
     console.log("Server is running on port 3000");
 });
-
-//API key
-//88cda1de595c5b6a440051423a950599-us20
-//Audience id
-//42629f4a9c
-//End Point
-//https://us20.api.mailchimp.com/3.0/
